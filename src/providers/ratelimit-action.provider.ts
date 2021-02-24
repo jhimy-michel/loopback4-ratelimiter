@@ -1,11 +1,11 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
-import {Getter, juggler} from '@loopback/repository';
-import {Request, Response, RestApplication, HttpErrors} from '@loopback/rest';
+import { CoreBindings, inject, Provider } from '@loopback/core';
+import { Getter, juggler } from '@loopback/repository';
+import { Request, Response, RestApplication, HttpErrors } from '@loopback/rest';
 import * as RateLimit from 'express-rate-limit';
 import * as RedisStore from 'rate-limit-redis';
 
-import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from '../types';
+import { RateLimitSecurityBindings } from '../keys';
+import { RateLimitAction, RateLimitMetadata, RateLimitOptions } from '../types';
 
 export class RatelimitActionProvider implements Provider<RateLimitAction> {
   constructor(
@@ -17,7 +17,7 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
       optional: true,
     })
     private readonly config?: RateLimitOptions,
-  ) {}
+  ) { }
 
   value(): RateLimitAction {
     return (req, resp) => this.action(req, resp);
@@ -49,6 +49,7 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
       if (redisDS?.connector) {
         opts.store = new RedisStore.default({
           client: redisDS.connector._client,
+          expiry: 1,
         });
       }
 
